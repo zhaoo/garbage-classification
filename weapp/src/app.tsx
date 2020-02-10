@@ -11,12 +11,13 @@ class App extends Component {
       'pages/search/search',
       'pages/identify/identify',
       'pages/database/database',
+      'pages/photo/photo',
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#409EFF',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'white'
     },
     tabBar: {
       color: "#666666",

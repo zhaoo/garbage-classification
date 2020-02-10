@@ -1,5 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { AtButton } from 'taro-ui'
 import './identify.scss'
 
 export default class Identify extends Component {
@@ -8,10 +9,11 @@ export default class Identify extends Component {
     navigationBarTitleText: '识图'
   }
 
-  render () {
+  render() {
     return (
-      <View>
-        <Text>Hello world!</Text>
+      <View className='identify'>
+        <AtButton type='primary' className='btn' onClick={() => { Taro.navigateTo({ url: `/pages/photo/photo` }) }}><View className='at-icon at-icon-camera'></View>拍照</AtButton>
+        <AtButton type='primary' className='btn btn-margin'><View className='at-icon at-icon-image'></View>相册</AtButton>
       </View>
     )
   }
