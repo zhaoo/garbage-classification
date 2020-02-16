@@ -1,6 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtTabs, AtTabsPane } from 'taro-ui'
+import { AtTabs, AtTabsPane, AtFab } from 'taro-ui'
 import graphql from '../../api/graphql'
 import { category } from '../../api/gql'
 import DataList from './dataList/dataList'
@@ -64,10 +64,21 @@ export default class Database extends Component<{}, PageState> {
     )
   }
 
+  renderAddGarbage = () => {
+    return (
+      <View className='fab'>
+        <AtFab onClick={() => { Taro.navigateTo({ url: `/pages/add/add` }) }} size='small'>
+          <View className='at-icon at-icon-add'></View>
+        </AtFab>
+      </View>
+    )
+  }
+
   render() {
     return (
-      <View>
+      <View className='database'>
         {this.renderCategory()}
+        {this.renderAddGarbage()}
       </View>
     )
   }

@@ -10,6 +10,7 @@ type PageState = {
   },
   isCamera: boolean,
   baiduToken: string,
+  keyword: string,
 }
 
 export default class Photo extends Component<{}, PageState> {
@@ -21,12 +22,12 @@ export default class Photo extends Component<{}, PageState> {
       },
       isCamera: true,
       baiduToken: '',
+      keyword: ''
     }
   }
 
   async componentDidMount() {
     this.getBaiduToken()
-    this.context = Taro.createCanvasContext('canvas', this.$scope)
   }
 
   config: Config = {
@@ -38,25 +39,46 @@ export default class Photo extends Component<{}, PageState> {
     this.setState({ baiduToken: res.access_token })
   }
 
-  handleCanvas = async (base64, src) => {
-    const subject: any = await baiduSubjectDetection(this.state.baiduToken, {
-      image: base64
+  handleCanvas = (base64, src, photo) => {
+    Taro.showLoading({
+      title: '正在生成识别图'
     })
-    const { height, width, top, left } = subject.result
-    const advance: any = await baiduAdvancedGeneral(this.state.baiduToken, {
-      image: base64
+    const ctx = Taro.createCanvasContext('canvas', this.$scope)
+    Taro.getSystemInfo({
+      success: async res => {
+        const w = res.windowWidth
+        const h = res.windowHeight - 90
+        const scale = {
+          w: w / photo.width,
+          h: h / photo.height
+        }
+        // 渲染照片
+        ctx.drawImage(src, 0, 0, w, h)
+        // 主体识别
+        const subject: any = await baiduSubjectDetection(this.state.baiduToken, {
+          image: base64
+        })
+        const { height, width, top, left } = subject.result
+        // 物品识别
+        const advance: any = await baiduAdvancedGeneral(this.state.baiduToken, {
+          image: base64
+        })
+        const { keyword } = advance.result[0]
+        this.setState({ keyword: keyword })
+        // 渲染轮廓和文字
+        ctx.setStrokeStyle("#00ff00")
+        ctx.setLineWidth(2)
+        ctx.rect(left, top, width, height)
+        // 适配屏幕尺寸
+        ctx.scale(scale.w, scale.h)
+        ctx.setFillStyle("#00ff00")
+        ctx.setFontSize(18 / scale.w)
+        ctx.fillText(keyword, left, (top + 30))
+        ctx.stroke()
+        ctx.draw()
+        Taro.hideLoading()
+      }
     })
-    const { keyword } = advance.result[0]
-    this.context.drawImage(src, 0, 0)
-    this.context.setStrokeStyle("#00ff00")
-    this.context.setLineWidth(2)
-    this.context.rect(left, top, width, height)
-    this.context.stroke()
-    this.context.setFillStyle("#00ff00")
-    this.context.setFontSize(18)
-    this.context.fillText(keyword, left, (top - 10))
-    this.context.draw()
-    typeof this.context.draw === 'function' && this.context.draw(true)
   }
 
   handleClickCamera = () => {
@@ -65,8 +87,11 @@ export default class Photo extends Component<{}, PageState> {
       quality: 'high',
       success: async (res) => {
         this.setState({ isCamera: false })
+        // 图片缓存地址转base64
         const base64 = await url2base64(res.tempImagePath)
-        this.handleCanvas(base64, res.tempImagePath)
+        // 获取图片实际尺寸
+        const { width, height } = await Taro.getImageInfo({ src: res.tempImagePath })
+        this.handleCanvas(base64, res.tempImagePath, { width, height })
       }
     })
   }
@@ -86,21 +111,26 @@ export default class Photo extends Component<{}, PageState> {
       <View className='camera'>
         <Camera className='view' device-position={camera.position}></Camera>
         <View className='button'>
-          <View className='at-icon at-icon-reload' onClick={() => { this.handleClickPosition() }}></View>
-          <View className='btn-camera' onClick={() => { this.handleClickCamera() }}>
+          <View className='at-icon at-icon-reload' hoverClass='active' onClick={() => { this.handleClickPosition() }}></View>
+          <View className='btn-camera' hoverClass='active' onClick={() => { this.handleClickCamera() }}>
             <View className='btn-camera-inside'></View>
           </View>
-          <View className='at-icon at-icon-lightning-bolt'></View>
+          <View className='at-icon at-icon-lightning-bolt' hoverClass='active'></View>
         </View>
       </View>
     )
   }
 
   renderView = () => {
+    const { keyword } = this.state
     return (
       <View className='view'>
         <Canvas className='canvas' canvasId='canvas'></Canvas>
-        <View className='button'></View>
+        <View className='button'>
+          <View className='at-icon at-icon-close-circle' hoverClass='active' onClick={() => { this.setState({ isCamera: true }) }}></View>
+          <View></View>
+          <View className='at-icon at-icon-check-circle' hoverClass='active' onClick={() => { Taro.navigateTo({ url: `/pages/search/search?keyword=${keyword}` }) }}></View>
+        </View>
       </View>
     )
   }

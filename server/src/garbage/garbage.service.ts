@@ -13,6 +13,10 @@ export class GarbageService {
     return await this.garbageModel.find({ categoryId });
   }
 
+  async findBySearch(keyword: string): Promise<GarbageType[]> {
+    return await this.garbageModel.find({ $or: [{ name: { $regex: keyword } }] });
+  }
+
   async create(createGarbageDto: GarbageInput): Promise<GarbageType> {
     const createdGarbage = new this.garbageModel(createGarbageDto);
     return await createdGarbage.save();

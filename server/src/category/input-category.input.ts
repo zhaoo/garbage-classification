@@ -8,4 +8,8 @@ export class CategoryInput {
   readonly image: string;
   @Field({ nullable: true })
   readonly description: string;
+  @Field({ nullable: true })
+  readonly type: string;
+  @Field(() => [String], { nullable: true })
+  readonly tips: string[];
 }

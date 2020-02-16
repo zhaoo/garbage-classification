@@ -12,6 +12,11 @@ export class CategoryResolver {
     return this.categoryService.findAll();
   }
 
+  @Query(() => CategoryType)
+  async categoryById(@Args('id') id: string): Promise<CategoryType> {
+    return this.categoryService.findOne(id);
+  }
+
   @Mutation(() => CategoryType)
   async createCategory(@Args('input') input: CategoryInput): Promise<CategoryInput> {
     return this.categoryService.create(input);

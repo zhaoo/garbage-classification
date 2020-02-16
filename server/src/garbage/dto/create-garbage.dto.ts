@@ -16,6 +16,7 @@ export class GarbageType {
   @Field()
   @IsString()
   readonly description: string;
+  @Field()
   @IsString()
   readonly categoryId: string;
 }

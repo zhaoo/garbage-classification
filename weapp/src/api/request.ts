@@ -1,11 +1,12 @@
 import Taro from '@tarojs/taro'
+import config from '../config'
 
 export default function request({ url, method, data, outside = false, contentType='application/json' }) {
   return new Promise((resolve, reject) => {
     Taro.request({
       data: data,
       method: method || 'GET',
-      url: outside ? url : ('http://127.0.0.1:3000/api' + url),
+      url: outside ? url : (config.baseUrl + url),
       header: {
         'Content-Type': contentType,
       },

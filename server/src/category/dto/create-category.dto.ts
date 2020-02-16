@@ -1,5 +1,5 @@
-import { ObjectType, Field, ID } from 'type-graphql';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { ObjectType, Field, ID  } from 'type-graphql';
+import { IsString, IsNotEmpty, IsArray } from 'class-validator';
 
 @ObjectType()
 export class CategoryType {
@@ -16,4 +16,10 @@ export class CategoryType {
   @Field()
   @IsString()
   readonly description: string;
+  @Field()
+  @IsString()
+  readonly type: string;
+  @Field(() => [String])
+  @IsArray()
+  readonly tips: string[];
 }

@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "aiGarbageSort",
+  "projectname": "AIGarbage",
   "description": "A weapp to help garbage sorting",
-  "appid": "touristappid",
+  "appid": "wx45ab81232102c3fa",
   "setting": {
     "urlCheck": true,
     "es6": false,

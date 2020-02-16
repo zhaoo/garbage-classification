@@ -1,0 +1,17 @@
+{
+  "name": "garbage-data-spider",
+  "version": "1.0.0",
+  "description": "Crawling garbage classification data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zhaoo <izhaoo@163.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "koa": "^2.11.0",
+    "mongoose": "^5.8.12",
+    "superagent": "^5.2.1"
+  }
+}

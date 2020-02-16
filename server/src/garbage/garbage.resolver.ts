@@ -13,6 +13,11 @@ export class GarbageResolver {
   }
 
   @Query(() => [GarbageType])
+  async searchGarbage(@Args('keyword') keyword: string): Promise<GarbageType[]> {
+    return this.garbageService.findBySearch(keyword);
+  }
+
+  @Query(() => [GarbageType])
   async garbage(): Promise<GarbageType[]> {
     return this.garbageService.findAll();
   }

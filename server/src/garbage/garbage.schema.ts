@@ -1,7 +1,10 @@
 import * as mongoose from 'mongoose';
 
 export const GarbageSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    unique: true,
+  },
   image: String,
   description: String,
   categoryId: String,

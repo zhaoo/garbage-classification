@@ -7,6 +7,8 @@ input CategoryInput {
   name: String!
   image: String
   description: String
+  type: String
+  tips: [String!]
 }
 
 type CategoryType {
@@ -14,6 +16,8 @@ type CategoryType {
   name: String!
   image: String!
   description: String!
+  type: String!
+  tips: [String!]!
 }
 
 input GarbageInput {
@@ -28,6 +32,7 @@ type GarbageType {
   name: String!
   image: String!
   description: String!
+  categoryId: String!
 }
 
 type Mutation {
@@ -41,6 +46,8 @@ type Mutation {
 
 type Query {
   category: [CategoryType!]!
+  categoryById(id: String!): CategoryType!
   garbageByCategoryId(categoryId: String!): [GarbageType!]!
+  searchGarbage(keyword: String!): [GarbageType!]!
   garbage: [GarbageType!]!
 }

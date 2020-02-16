@@ -1,17 +1,21 @@
 import '@tarojs/async-await'
 import Taro, { Component, Config } from '@tarojs/taro'
 import 'taro-ui/dist/style/index.scss'
-import Search from './pages/search/search'
+import Home from './pages/home/home'
 import './app.scss'
 
 class App extends Component {
 
   config: Config = {
     pages: [
-      'pages/search/search',
+      'pages/home/home',
       'pages/identify/identify',
       'pages/database/database',
       'pages/photo/photo',
+      'pages/album/album',
+      'pages/type/type',
+      'pages/search/search',
+      'pages/add/add'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -25,10 +29,10 @@ class App extends Component {
       backgroundColor: "#fafafa",
       borderStyle: 'black',
       list: [{
-        pagePath: "pages/search/search",
-        iconPath: "./assets/tabbar/search.png",
-        selectedIconPath: "./assets/tabbar/search-active.png",
-        text: "查询"
+        pagePath: "pages/home/home",
+        iconPath: "./assets/tabbar/home.png",
+        selectedIconPath: "./assets/tabbar/home-active.png",
+        text: "首页"
       },
       {
         pagePath: "pages/identify/identify",
@@ -47,7 +51,7 @@ class App extends Component {
 
   render() {
     return (
-      <Search />
+      <Home />
     )
   }
 }

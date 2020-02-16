@@ -1,0 +1,53 @@
+.type {
+  padding: 0 20px;
+
+  .intro {
+
+    .image-container {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+
+      .image {
+        width: 200px;
+        height: 200px;
+      }
+    }
+
+    .section {
+      margin-bottom: 40px;
+
+      .text {
+        color: #666666;
+        font-size: 0.85em;
+      }
+
+      .tag {
+        color: #ffbe5b;
+        background-color: #f6f8fa;
+        padding: 2px 5px;
+      }
+
+      .divide {
+        margin: 0 5px;
+      }
+
+      .description {
+        display: inline-block;
+      }
+
+      .tip {
+        display: block;
+
+        .check {
+          font-size: 0.85em;
+          color: #67C23A;
+        }
+
+        .text {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

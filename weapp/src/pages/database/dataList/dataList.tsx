@@ -7,7 +7,8 @@ import './dataList.scss'
 
 type PageState = {
   garbageList: Array<{
-    name: string
+    name: string,
+    categoryId: string,
   }>
 }
 
@@ -43,7 +44,7 @@ class GarbageList extends Component<{}, PageState, PageStateProps> {
       <AtList>
         {garbageList && garbageList.map((item, index) => {
           return (
-            <AtListItem title={item.name} key={index} />
+            <AtListItem title={item.name} key={index} onClick={() => { Taro.navigateTo({ url: `/pages/type/type?id=${item.categoryId}&name=${item.name}&type=garbage` }) }} />
           )
         })}
       </AtList>

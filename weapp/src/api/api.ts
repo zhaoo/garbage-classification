@@ -1,13 +1,14 @@
 import request from './request';
+import config from '../config'
 
 export function baiduToken() {
   return request({
     url: 'https://aip.baidubce.com/oauth/2.0/token',
     method: 'get',
     data: {
-      grant_type: 'client_credentials',
-      client_id: 'faMIeNRrNt1fsKrzh0AUbyGI',
-      client_secret: 'N6Dfo6CGYhvL23CzAulZduGNPw3QZ1HA'
+      grant_type: config.baiduApi.grant_type,
+      client_id: config.baiduApi.client_id,
+      client_secret: config.baiduApi.client_secret
     },
     outside: true
   })

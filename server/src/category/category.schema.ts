@@ -4,4 +4,6 @@ export const CategorySchema = new mongoose.Schema({
   name: String,
   image: String,
   description: String,
+  type: String,
+  tips: [String],
 });
