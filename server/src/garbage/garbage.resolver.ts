@@ -1,6 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { GarbageService } from './garbage.service';
-import { GarbageType } from './dto/create-garbage.dto';
+import { GarbageType } from './dto/garbage.dto';
+import {GarbagePaginationType} from './dto/garbage-pagination.dto'
 import { GarbageInput } from './input-garbage.input';
 
 @Resolver()
@@ -17,9 +18,9 @@ export class GarbageResolver {
     return this.garbageService.findBySearch(keyword);
   }
 
-  @Query(() => [GarbageType])
-  async garbage(): Promise<GarbageType[]> {
-    return this.garbageService.findAll();
+  @Query(() => GarbagePaginationType)
+  async garbage(@Args('current') current?: number, @Args('limit') limit?: number): Promise<GarbagePaginationType> {
+    return this.garbageService.findByPagination(current, limit);
   }
 
   @Mutation(() => GarbageType)

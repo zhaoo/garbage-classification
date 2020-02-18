@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { GarbageType } from './dto/create-garbage.dto';
+import { GarbageType } from './dto/garbage.dto';
+import {GarbagePaginationType} from './dto/garbage-pagination.dto';
 import { Garbage } from './interfaces/garbage.interface';
 import { GarbageInput } from './input-garbage.input';
 
@@ -15,6 +16,12 @@ export class GarbageService {
 
   async findBySearch(keyword: string): Promise<GarbageType[]> {
     return await this.garbageModel.find({ $or: [{ name: { $regex: keyword } }] });
+  }
+
+  async findByPagination(current: number, limit: number): Promise<GarbagePaginationType> {
+    const list = await this.garbageModel.find({}).skip((current - 1) * limit).limit(limit).exec();
+    const total = await this.garbageModel.count({});
+    return {list, total};
   }
 
   async create(createGarbageDto: GarbageInput): Promise<GarbageType> {

@@ -2,3 +2,6 @@
 /weapp/dist
 /server/node_modules
 /server/dist
+.DS_Store
+/admin/dist
+/admin/node_modules

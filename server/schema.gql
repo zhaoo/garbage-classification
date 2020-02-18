@@ -27,6 +27,11 @@ input GarbageInput {
   categoryId: String!
 }
 
+type GarbagePaginationType {
+  list: [GarbageType!]!
+  total: Float!
+}
+
 type GarbageType {
   id: ID!
   name: String!
@@ -49,5 +54,5 @@ type Query {
   categoryById(id: String!): CategoryType!
   garbageByCategoryId(categoryId: String!): [GarbageType!]!
   searchGarbage(keyword: String!): [GarbageType!]!
-  garbage: [GarbageType!]!
+  garbage(limit: Float!, current: Float!): GarbagePaginationType!
 }
