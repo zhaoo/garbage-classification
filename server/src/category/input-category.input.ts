@@ -5,11 +5,11 @@ export class CategoryInput {
   @Field()
   readonly name: string;
   @Field({ nullable: true })
-  readonly image: string;
+  readonly image?: string;
   @Field({ nullable: true })
-  readonly description: string;
+  readonly description?: string;
   @Field({ nullable: true })
-  readonly type: string;
-  @Field(() => [String], { nullable: true })
-  readonly tips: string[];
+  readonly type?: string;
+  @Field(() => [String, { nullable: true }], { nullable: true })
+  readonly tips?: string[];
 }

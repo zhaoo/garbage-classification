@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
-import { Table, Button, Popconfirm, notification } from 'antd'
-import { garbage, deleteGarbage, category } from '../../api/gql'
+import { Table, Button, Popconfirm, notification, Modal, Form, Input, Select } from 'antd'
+import { garbage, deleteGarbage, category, createGarbage, updateGarbage } from '../../api/gql'
+import { parseTime } from '../../utils/format'
 import graphql from '../../api/graphql'
 import './Garbage.scss'
+const { Option } = Select
+const { TextArea, Search } = Input
 
 interface IGarbage {
   name: string,
   id: string,
-  categoryId: string
+  categoryId: string,
+  description: string
 }
 
 interface ICategory {
@@ -18,20 +22,26 @@ interface ICategory {
 interface IState {
   page: {
     current: number,
-    limit: number
+    limit: number,
+    keyword?: string,
+    categoryId?: string,
   },
   list: Array<IGarbage>,
   total: number,
   loading: boolean,
   categoryList: Array<ICategory>,
-  garbage: IGarbage
+  garbage: IGarbage,
+  showForm: boolean,
+  formType: string
 }
 
 class Garbage extends Component<{}, IState> {
   state = {
     page: {
       current: 1,
-      limit: 10
+      limit: 10,
+      keyword: '',
+      categoryId: undefined,
     },
     list: [],
     total: 0,
@@ -40,8 +50,11 @@ class Garbage extends Component<{}, IState> {
     garbage: {
       id: '',
       name: '',
-      categoryId: ''
-    }
+      categoryId: '',
+      description: ''
+    },
+    showForm: false,
+    formType: 'create'
   }
 
   async componentDidMount() {
@@ -51,7 +64,7 @@ class Garbage extends Component<{}, IState> {
 
   getList = async () => {
     const { page } = this.state
-    const res: any = await graphql.query({ query: garbage, variables: { current: page.current, limit: page.limit } })
+    const res: any = await graphql.query({ query: garbage, variables: { current: page.current, limit: page.limit, keyword: page.keyword, categoryId: page.categoryId } })
     const list = res.data.garbage.list
     for (let item of list) {
       let name: string = ''
@@ -76,6 +89,23 @@ class Garbage extends Component<{}, IState> {
     await this.getList()
   }
 
+  handleSelectChange = (value: string) => {
+    this.setState({ garbage: { ...this.state.garbage, categoryId: value } })
+  }
+
+  handleBarSelectChange = async (value: string) => {
+    await this.setState({ page: { ...this.state.page, categoryId: value } })
+    await this.getList()
+  }
+
+  handleNameChange = (event: any) => {
+    this.setState({ garbage: { ...this.state.garbage, name: event.target.value } })
+  }
+
+  handleDescriptionChange = (event: any) => {
+    this.setState({ garbage: { ...this.state.garbage, description: event.target.value } })
+  }
+
   handleDelete = async (id: string, index: number) => {
     await graphql.mutate({ mutation: deleteGarbage, variables: { id: id } })
     const arr = this.state.list
@@ -83,6 +113,31 @@ class Garbage extends Component<{}, IState> {
     this.setState({ list: arr })
     notification['success']({
       message: '删除成功'
+    })
+  }
+
+  handleSubmit = async () => {
+    const { garbage, formType } = this.state
+    if (formType === 'create') {
+      await graphql.mutate({ mutation: createGarbage, variables: garbage })
+    }
+    if (formType === 'edit') {
+      await graphql.mutate({ mutation: updateGarbage, variables: garbage })
+    }
+    notification['success']({
+      message: '提交成功'
+    })
+    this.setState({ showForm: false })
+  }
+
+  handleResetGarbage = () => {
+    this.setState({
+      garbage: {
+        id: '',
+        name: '',
+        categoryId: '',
+        description: ''
+      }
     })
   }
 
@@ -102,17 +157,85 @@ class Garbage extends Component<{}, IState> {
 
   renderEdit = (text: IGarbage) => {
     return (
-      <Button type="primary" icon="edit" className='btn' />
+      <Button type="primary" icon="edit" className='btn' onClick={() => {
+        this.setState({
+          showForm: true,
+          formType: 'edit',
+          garbage: text
+        })
+      }} />
+    )
+  }
+
+  renderForm = () => {
+    const { garbage, categoryList, showForm } = this.state
+    return (
+      <Modal
+        visible={showForm}
+        okText='提交'
+        cancelText='取消'
+        onCancel={() => { this.setState({ showForm: false }) }}
+        onOk={() => { this.handleSubmit() }}
+      >
+        <Form>
+          <Form.Item label='名称'>
+            <Input value={garbage.name} onChange={this.handleNameChange} />
+          </Form.Item>
+          <Form.Item label='类型'>
+            <Select value={garbage.categoryId} onChange={this.handleSelectChange}>
+              {categoryList.map((item: ICategory) => {
+                return (<Option value={item.id} key={item.id}>{item.name}</Option>)
+              })}
+            </Select>
+          </Form.Item>
+          <Form.Item label='描述'>
+            <TextArea value={garbage.description} onChange={this.handleDescriptionChange} />
+          </Form.Item>
+        </Form>
+      </Modal>
+    )
+  }
+
+  renderBar = () => {
+    const { categoryList, page } = this.state
+    return (
+      <div className="bar">
+        <Select value={page.categoryId} onChange={this.handleBarSelectChange} className='right select'>
+          {categoryList.map((item: ICategory) => {
+            return (<Option value={item.id} key={item.id}>{item.name}</Option>)
+          })}
+        </Select>
+        <Search placeholder="请输入关键词" className='right search-btn' onSearch={async keyword => {
+          await this.setState({ page: { ...this.state.page, keyword: keyword } })
+          await this.getList()
+        }} enterButton />
+        <Button icon="reload" className='right' onClick={async () => {
+          await this.setState({ page: { ...this.state.page, keyword: '', categoryId: '' } })
+          await this.getList()
+        }}>刷新</Button>
+        <Button type="primary" icon="plus" className='float-right' onClick={() => {
+          this.handleResetGarbage()
+          this.setState({
+            showForm: true,
+            formType: 'create',
+          })
+        }}>添加</Button>
+      </div>
     )
   }
 
   renderTable = () => {
     const { page, list, total, loading } = this.state
     const columns = [
-      { title: '名称', dataIndex: 'name', key: 'name', width: 100 },
-      { title: '类别', dataIndex: 'categoryName', key: 'categoryName', width: 100 },
+      { title: '名称', dataIndex: 'name', key: 'name', width: 50, ellipsis: true, className: 'center' },
+      { title: '类别', dataIndex: 'categoryName', key: 'categoryName', width: 50, ellipsis: true, className: 'center' },
+      { title: '描述', dataIndex: 'description', key: 'description', width: 100, className: 'center' },
       {
-        title: '操作', width: 100, render: (text: IGarbage, index: number) => (
+        title: '修改时间', dataIndex: 'updateTime', key: 'updateTime', width: 50, ellipsis: true, className: 'center',
+        render: (value: any) => <span>{parseTime(value, '{y}-{m}-{d} {h}:{s}')}</span>,
+      },
+      {
+        title: '操作', width: 50, ellipsis: true, className: 'center', render: (text: IGarbage, index: number) => (
           <div>
             {this.renderDelete(text, index)}
             {this.renderEdit(text)}
@@ -136,7 +259,11 @@ class Garbage extends Component<{}, IState> {
   render() {
     return (
       <div className='garbage'>
-        {this.renderTable()}
+        <div className="container">
+          {this.renderBar()}
+          {this.renderTable()}
+          {this.renderForm()}
+        </div>
       </div>
     )
   }

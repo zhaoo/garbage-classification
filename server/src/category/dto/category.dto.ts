@@ -10,16 +10,16 @@ export class CategoryType {
   @IsString()
   @IsNotEmpty()
   readonly name: string;
-  @Field()
+  @Field({ nullable: true })
   @IsString()
-  readonly image: string;
-  @Field()
+  readonly image?: string;
+  @Field({ nullable: true })
   @IsString()
-  readonly description: string;
-  @Field()
+  readonly description?: string;
+  @Field({ nullable: true })
   @IsString()
-  readonly type: string;
-  @Field(() => [String])
+  readonly type?: string;
+  @Field(() => [String, { nullable: true }], { nullable: true })
   @IsArray()
-  readonly tips: string[];
+  readonly tips?: string[];
 }

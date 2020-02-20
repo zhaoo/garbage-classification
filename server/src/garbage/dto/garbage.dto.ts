@@ -10,13 +10,15 @@ export class GarbageType {
   @IsString()
   @IsNotEmpty()
   readonly name: string;
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   readonly image: string;
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   readonly description: string;
   @Field()
   @IsString()
   readonly categoryId: string;
+  @Field({ nullable: true })
+  readonly updateTime?: Date;
 }

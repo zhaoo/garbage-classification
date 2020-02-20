@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { GarbageType } from './dto/garbage.dto';
-import {GarbagePaginationType} from './dto/garbage-pagination.dto';
+import { GarbagePaginationType } from './dto/garbage-pagination.dto';
 import { Garbage } from './interfaces/garbage.interface';
 import { GarbageInput } from './input-garbage.input';
 
@@ -18,10 +18,16 @@ export class GarbageService {
     return await this.garbageModel.find({ $or: [{ name: { $regex: keyword } }] });
   }
 
-  async findByPagination(current: number, limit: number): Promise<GarbagePaginationType> {
-    const list = await this.garbageModel.find({}).skip((current - 1) * limit).limit(limit).exec();
-    const total = await this.garbageModel.count({});
-    return {list, total};
+  async findByCondition(current: number, limit: number, keyword = '', categoryId?: string): Promise<GarbagePaginationType> {
+    let query: any
+    if (categoryId) {
+      query = { $and: [{ name: { $regex: keyword } }, { categoryId }] };
+    } else {
+      query = { $and: [{ name: { $regex: keyword } }] };
+    }
+    const list = await this.garbageModel.find(query).skip((current - 1) * limit).limit(limit).exec();
+    const total = await this.garbageModel.count(query);
+    return { list, total };
   }
 
   async create(createGarbageDto: GarbageInput): Promise<GarbageType> {

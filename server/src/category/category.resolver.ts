@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
-import { CategoryType } from './dto/create-category.dto';
+import { CategoryType } from './dto/category.dto';
 import { CategoryInput } from './input-category.input';
 
 @Resolver()

@@ -14,17 +14,23 @@ input CategoryInput {
 type CategoryType {
   id: ID!
   name: String!
-  image: String!
-  description: String!
-  type: String!
-  tips: [String!]!
+  image: String
+  description: String
+  type: String
+  tips: [String!]
 }
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
 
 input GarbageInput {
   name: String!
   image: String
   description: String
   categoryId: String!
+  updateTime: DateTime
 }
 
 type GarbagePaginationType {
@@ -35,9 +41,10 @@ type GarbagePaginationType {
 type GarbageType {
   id: ID!
   name: String!
-  image: String!
-  description: String!
+  image: String
+  description: String
   categoryId: String!
+  updateTime: DateTime
 }
 
 type Mutation {
@@ -54,5 +61,5 @@ type Query {
   categoryById(id: String!): CategoryType!
   garbageByCategoryId(categoryId: String!): [GarbageType!]!
   searchGarbage(keyword: String!): [GarbageType!]!
-  garbage(limit: Float!, current: Float!): GarbagePaginationType!
+  garbage(categoryId: String, keyword: String, limit: Float!, current: Float!): GarbagePaginationType!
 }

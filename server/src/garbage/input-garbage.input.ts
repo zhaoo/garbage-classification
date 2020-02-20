@@ -10,4 +10,6 @@ export class GarbageInput {
   readonly description: string;
   @Field()
   readonly categoryId: string;
+  @Field({ nullable: true })
+  updateTime?: Date;
 }

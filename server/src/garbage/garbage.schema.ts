@@ -8,4 +8,8 @@ export const GarbageSchema = new mongoose.Schema({
   image: String,
   description: String,
   categoryId: String,
+  updateTime: {
+    type: Date,
+    default: new Date(),
+  },
 });
