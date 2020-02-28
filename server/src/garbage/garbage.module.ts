@@ -7,5 +7,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'Garbage', schema: GarbageSchema }])],
   providers: [GarbageService, GarbageResolver],
+  exports: [GarbageService],
 })
 export class GarbageModule { }

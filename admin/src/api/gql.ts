@@ -66,3 +66,11 @@ export const updateCategory = gql`
     }
   }
 `
+
+export const dashboard = gql`
+  query {
+    dashboard {
+      garbageCount
+    }
+  }
+`

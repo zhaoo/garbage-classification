@@ -18,6 +18,10 @@ export class GarbageService {
     return await this.garbageModel.find({ $or: [{ name: { $regex: keyword } }] });
   }
 
+  async count(): Promise<number> {
+    return await this.garbageModel.count({});
+  }
+
   async findByCondition(current: number, limit: number, keyword = '', categoryId?: string): Promise<GarbagePaginationType> {
     let query: any
     if (categoryId) {

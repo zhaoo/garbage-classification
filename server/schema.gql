@@ -20,6 +20,10 @@ type CategoryType {
   tips: [String!]
 }
 
+type DashboardType {
+  garbageCount: Float!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -62,4 +66,5 @@ type Query {
   garbageByCategoryId(categoryId: String!): [GarbageType!]!
   searchGarbage(keyword: String!): [GarbageType!]!
   garbage(categoryId: String, keyword: String, limit: Float!, current: Float!): GarbagePaginationType!
+  dashboard: DashboardType!
 }

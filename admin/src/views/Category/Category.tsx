@@ -116,7 +116,7 @@ class Category extends Component<{}, IState> {
               showUploadList={false}
               beforeUpload={this.beforeUpload}
             >
-              {category.image && <img src={category.image} alt="image" style={{ width: '100%' }} /> }
+              {category.image && <img src={category.image} alt={category.name} style={{ width: '100%' }} /> }
             </Upload>
           </Form.Item>
         </Form>

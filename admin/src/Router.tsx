@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Switch, Link, Route, withRouter } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd'
-import Home from './views/Home/Home'
+import Dashboard from './views/Dashboard/Dashboard'
 import Category from './views/Category/Category'
 import Garbage from './views/Garbage/Garbage'
 
@@ -18,26 +18,26 @@ interface RouterInterface {
 
 const routes = [
   {
-    path: '/home',
-    component: Home,
-    meta: { title: '首页', icon: 'home' }
+    path: '/dashboard',
+    component: Dashboard,
+    meta: { title: '仪表盘', icon: 'dashboard' }
   },
   {
     path: '/category',
     component: Category,
-    meta: { title: '分类', icon: 'appstore' }
+    meta: { title: '分类管理', icon: 'appstore' }
   },
   {
     path: '/garbage',
     component: Garbage,
-    meta: { title: '垃圾', icon: 'delete' }
+    meta: { title: '垃圾管理', icon: 'delete' }
   }
 ]
 
 const RenderSider = withRouter(({ history }) => {
   return (
     <Sider theme='light' className='sider'>
-      <Menu mode="inline" defaultSelectedKeys={['/home']} selectedKeys={[history.location.pathname]} className='menu'>
+      <Menu mode="inline" defaultSelectedKeys={['/dashboard']} selectedKeys={[history.location.pathname]} className='menu'>
         {routes.map((route) => {
           return (
             <Menu.Item key={route.path}>
@@ -60,7 +60,7 @@ export default class Router extends Component {
         <div className="App">
           <Layout className='container'>
             <RenderSider />
-            <Content className='content'>
+            <Content className='main'>
               <Switch>
                 {routes.map((route: RouterInterface) => {
                   return (
