@@ -6,8 +6,10 @@
 
 ### 二维码
 
-![weappcode](./screenshots/weappcode.jpg)![qrcode](./screenshots/qrcode.jpg)
-(开发中，暂未审核上架……)
+<div align="center">
+  <img src="./screenshots/weappcode.jpg" alt="weappcode" height="200">
+  <img src="./screenshots/qrcode.jpg" alt="qrcode" height="200">
+</div>
 
 ### 技术栈
 
@@ -62,8 +64,17 @@ cd ./dist
 
 ### 截图
 
-![1](./screenshots/1.jpg)![2](./screenshots/2.jpg)
+<div align="center">
+  <img src="./screenshots/1.jpg" alt="1" width="300">
+  <img src="./screenshots/2.jpg" alt="2" width="300">
+</div>
 
-![3](./screenshots/3.jpg)![4](./screenshots/4.jpg)
+<div align="center">
+  <img src="./screenshots/3.jpg" alt="3" width="300">
+  <img src="./screenshots/4.jpg" alt="4" width="300">
+</div>
 
-![5](./screenshots/5.jpg)![6](./screenshots/6.jpg)
+<div align="center">
+  <img src="./screenshots/5.jpg" alt="5" width="300">
+  <img src="./screenshots/6.jpg" alt="6" width="300">
+</div>

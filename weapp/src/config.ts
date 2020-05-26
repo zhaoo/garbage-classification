@@ -1,10 +1,12 @@
 const config = {
-  baseUrl: 'https://localhost:2020/api',
-  graphqlUrl: 'https://localhost:2020/graphql',
+  // baseUrl: 'https://mac.izhaoo.com:7043/api',
+  // graphqlUrl: 'https://mac.izhaoo.com:7043/graphql',
+  baseUrl: 'https://garbage.izhaoo.com/api',
+  graphqlUrl: 'https://garbage.izhaoo.com/graphql',
   baiduApi: {
-    grant_type: '',
-    client_id: '',
-    client_secret: ''
+    grant_type: 'client_credentials',
+    client_id: 'faMIeNRrNt1fsKrzh0AUbyGI',
+    client_secret: 'N6Dfo6CGYhvL23CzAulZduGNPw3QZ1HA'
   }
 }
 
