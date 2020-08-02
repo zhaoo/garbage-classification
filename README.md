@@ -13,10 +13,10 @@
 
 ### 技术栈
 
-* 小程序: Taro, GraphQL, Apollo, TypeScript, React, Canvas
+* 小程序: Taro, GraphQL (Apollo), TypeScript, React (Hooks), Canvas
 * 后台: AntDesign, TypeScript, React
-* 服务端: Nest, Mongoose, GraphQL, Apollo, TypeScript, 百度AI
-* 爬虫: cheerio, superagent, koa, mongoose
+* 服务端: Nest.js, Mongoose, GraphQL （Apollo）, TypeScript, 百度AI
+* 爬虫: cheerio, superagent, Koa, Mongoose
 
 ### 截图
 
