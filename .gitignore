@@ -5,3 +5,4 @@
 .DS_Store
 /admin/dist
 /admin/node_modules
+/spider/node_modules
