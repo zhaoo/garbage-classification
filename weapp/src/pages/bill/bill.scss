@@ -1,0 +1,15 @@
+.bill {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .canvas {
+    box-shadow: 0 0 200px rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+    width: 80vw;
+    height: 80vw * 9 / 5;
+  }
+}

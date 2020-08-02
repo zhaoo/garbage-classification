@@ -128,7 +128,7 @@ export default class Photo extends Component<{}, PageState> {
         <Canvas className='canvas' canvasId='canvas'></Canvas>
         <View className='button'>
           <View className='at-icon at-icon-close-circle' hoverClass='active' onClick={() => { this.setState({ isCamera: true }) }}></View>
-          <View></View>
+          <View className='at-icon at-icon-download-cloud' hoverClass='active' onClick={() => { Taro.navigateTo({ url: `/pages/bill/bill` }) }}></View>
           <View className='at-icon at-icon-check-circle' hoverClass='active' onClick={() => { Taro.navigateTo({ url: `/pages/search/search?keyword=${keyword}` }) }}></View>
         </View>
       </View>

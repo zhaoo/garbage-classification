@@ -15,7 +15,8 @@ class App extends Component {
       'pages/album/album',
       'pages/type/type',
       'pages/search/search',
-      'pages/add/add'
+      'pages/add/add',
+      'pages/bill/bill'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -45,6 +46,12 @@ class App extends Component {
         iconPath: "./assets/tabbar/database.png",
         selectedIconPath: "./assets/tabbar/database-active.png",
         text: "字典"
+      },
+      {
+        pagePath: "pages/bill/bill",
+        iconPath: "./assets/tabbar/send.png",
+        selectedIconPath: "./assets/tabbar/send-active.png",
+        text: "推广"
       }]
     }
   }

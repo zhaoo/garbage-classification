@@ -67,7 +67,7 @@ export default class Database extends Component<{}, PageState> {
   renderAddGarbage = () => {
     return (
       <View className='fab'>
-        <AtFab onClick={() => { Taro.navigateTo({ url: `/pages/add/add` }) }} size='small'>
+        <AtFab onClick={() => { Taro.navigateTo({ url: `/pages/add/add` }) }} size='normal'>
           <View className='at-icon at-icon-add'></View>
         </AtFab>
       </View>
